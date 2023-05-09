@@ -15,9 +15,13 @@ const ListItem = ({ results }) => {
           <Link href={`/edit/${results[i]._id}`}>🔨</Link>
           {/* <Link href={`/delete/${results[i]._id}`}>🗑️</Link> */}
           <span
-            onClick={() => {
+            onClick={(e) => {
               fetch(`/api/post/delete`, { method :'POST', body : results[i]._id }).then(() => {
                 console.log("글이 삭제되었습니다.");
+                e.target.parentElement.style.opacity = 0;
+                setTimeout(() => {
+                  e.target.parentElement.style.display = 'none';
+                }, 1000);
               });
             }}
           >
