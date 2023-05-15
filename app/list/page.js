@@ -2,6 +2,8 @@ import { connectDB } from "@/app/util/database";
 
 import ListItem from "./ListItem";
 
+export const dynamic = 'force-dynamic'
+
 export default async function List() {
   let db = (await connectDB).db("forum");
   let results = await db.collection("post").find().toArray();
