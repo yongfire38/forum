@@ -16,13 +16,26 @@ const ListItem = ({ results }) => {
           {/* <Link href={`/delete/${results[i]._id}`}>🗑️</Link> */}
           <span
             onClick={(e) => {
-              fetch(`/api/post/delete`, { method :'POST', body : results[i]._id }).then(() => {
-                console.log("글이 삭제되었습니다.");
-                e.target.parentElement.style.opacity = 0;
-                setTimeout(() => {
-                  e.target.parentElement.style.display = 'none';
-                }, 1000);
-              });
+              fetch(`/api/post/delete`, {
+                method: "POST",
+                body: results[i]._id,
+              })
+                .then((r) => {
+                  if (r.status !== 200) {
+                    alert("현재유저와 작성자 불일치");
+                    throw new Error("현재유저와 작성자 불일치");
+                  }
+                })
+                .then(() => {
+                  console.log("글이 삭제되었습니다.");
+                  e.target.parentElement.style.opacity = 0;
+                  setTimeout(() => {
+                    e.target.parentElement.style.display = "none";
+                  }, 1000);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
             }}
           >
             🗑️

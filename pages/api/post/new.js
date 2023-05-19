@@ -1,4 +1,6 @@
 import { connectDB } from "@/app/util/database";
+import {getServerSession} from 'next-auth'
+import {authOptions} from '@/pages/api/auth/[...nextauth]'
 
 export default async function addPostApi(req, res) {
   if (req.body.title === "" || req.body.content === "") {
@@ -6,6 +8,11 @@ export default async function addPostApi(req, res) {
   }
 
   let db = (await connectDB).db("forum");
+  let session = await getServerSession(req, res, authOptions);
+
+  if(session) {
+    req.body.author = session.user.email;
+  }
 
   try {
     switch (req.method) {
