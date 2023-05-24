@@ -15,7 +15,9 @@ export default async function deletePostApi(req, res) {
       // console.log("222222"+post?.author);
       // console.log("333333"+session?.user.email);
 
-    if(session !== null || post?.author === session?.user.email) {
+
+    // 글 작성자랑 이메일이 같거나, admin일 경우만 삭제 처리
+    if( (session !== null && post?.author === session?.user.email && session?.user.role === "user") || (session !== null && session?.user.role === "admin")) {
       try {
         let result = await db
           .collection("post")
@@ -26,7 +28,7 @@ export default async function deletePostApi(req, res) {
         console.log(error);
       }
     } else {
-      return res.status(500).json("현재유저와 작성자 불일치");
+      return res.status(500).json("삭제 권한 없음");
     }
   }
 }

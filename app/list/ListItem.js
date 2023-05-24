@@ -21,6 +21,7 @@ const ListItem = ({ results }) => {
                 body: results[i]._id,
               })
                 .then((r) => {
+                  console.log(r.status)
                   if (r.status !== 200) {
                     alert("현재유저와 작성자 불일치");
                     throw new Error("현재유저와 작성자 불일치");
